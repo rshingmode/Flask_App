@@ -37,21 +37,26 @@ jobs:
       - name: Run tests
         run: python test_hello.py
 
-  publish:
-    runs-on: ubuntu-latest
+      - name: List files
+        run: |
+          echo "Contents of Working Directory: $(ls -l)"
 
-    needs: build
 
-    steps:
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: flask-app-artifact
-          path: .  # Use the root directory as the artifact path
+  # publish:
+  #   runs-on: ubuntu-latest
 
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: flask-app-artifact
+  #   needs: build
+
+  #   steps:
+  #     - name: Archive artifacts
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: flask-app-artifact
+  #         path: .  # Use the root directory as the artifact path
+
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: flask-app-artifact
           
 

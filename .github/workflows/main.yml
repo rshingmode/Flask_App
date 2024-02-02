@@ -37,10 +37,30 @@ jobs:
       - name: Run tests
         run: python test_hello.py
 
+  publish:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: flask-app-artifact
+          path: .  # Use the root directory as the artifact path
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: publish
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: flask-app-artifact
-          path: .
+          path: .  # Use the root directory as the deployment path
 
-      

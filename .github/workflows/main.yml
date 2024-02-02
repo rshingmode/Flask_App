@@ -1,4 +1,4 @@
-name: Flask CI
+name: Flask CI/CD
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8 
+          python-version: 3.8
 
       - name: Create virtual environment
         run: |
@@ -36,3 +36,11 @@ jobs:
 
       - name: Run tests
         run: python test_hello.py
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: flask-app-artifact
+          path: .
+
+      

@@ -40,6 +40,13 @@ jobs:
       - name: List files
         run: |
           echo "Contents of Working Directory: $(ls -l)"
+ 
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: flask-app-artifact
+          path: .  # Use the root directory as the artifact path
+
 
 
   # publish:

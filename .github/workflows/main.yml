@@ -35,7 +35,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
           SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
-          sonar.projectKey: flask
+          SONAR_PROJECT_KEY: your_project_key
 
   publish:
     runs-on: ubuntu-latest

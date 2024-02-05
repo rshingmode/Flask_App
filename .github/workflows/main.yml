@@ -58,6 +58,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: flask-app-artifact
-      
+          path: .
+          exclude: |
+            .git
+
          
        

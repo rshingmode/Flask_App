@@ -35,24 +35,27 @@ jobs:
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
           SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
-          
-  publish:
-    runs-on: ubuntu-latest
 
-    needs: build
-
-    steps:
       - name: Copy files to temporary directory (excluding .git and venv)
         run: |
           mkdir temp
-          rsync -av --exclude='.git' --exclude='venv' ./ temp
+          cp -r * temp/
+          find temp -name ".git" -exec rm -rf {} \;
+          find temp -name "venv" -exec rm -rf {} \;
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: flask-app-artifact
           path: temp
+          
+  
+  publish:
+    runs-on: ubuntu-latest
 
+    needs: build
+
+    steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:

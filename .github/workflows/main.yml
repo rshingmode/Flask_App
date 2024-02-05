@@ -30,14 +30,11 @@ jobs:
       - name: Run tests
         run: python test_hello.py
 
-      - name: SonarScan
-        run: |
-          # SonarScanner configuration
-          sonar-scanner \
-            -Dsonar.projectKey=flask \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=http://54.166.82.236 \
-            -Dsonar.token=sqp_ba55a2f7b8bf231499f47b80637f6384f33bcf38
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+          SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
 
   publish:
     runs-on: ubuntu-latest

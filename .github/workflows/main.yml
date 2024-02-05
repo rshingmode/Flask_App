@@ -42,9 +42,15 @@ jobs:
       
       - name: Cleanup
         run: |
-         # Add cleanup commands here, such as removing unnecessary files or changing permissions
-         chmod -R +rw .
-         find . -type d -name ".git" -exec chmod -R +rw {} +
+          # Add cleanup commands here, such as removing unnecessary files
+      
+          # Try to exclude certain directories from chmod
+          find . -type d \( -name ".git" -o -name ".scannerwork" \) -prune -exec chmod -R +rw {} +
+      
+          # Explicitly set permissions for necessary files and directories
+          chmod -R +rw ./path/to/allowed_directory
+          chmod -R +rw ./path/to/another_allowed_directory
+  
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2

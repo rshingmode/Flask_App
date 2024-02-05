@@ -1,4 +1,4 @@
-name: Flask CI and Download Artifact
+name: Flask CI and SonarScan
 
 on:
   push:
@@ -27,56 +27,34 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Print debugging information
-        run: |
-          echo "Python Version: $(python --version)"
-          echo "Working Directory: $(pwd)"
-          echo "Contents of Working Directory: $(ls -l)"
-          echo "Contents of site-packages: $(ls -l venv/lib/python*/site-packages)"
-
       - name: Run tests
         run: python test_hello.py
 
-      - name: List files
+      - name: SonarScan
         run: |
-          echo "Contents of Working Directory: $(ls -l)"
-      
-      - name: Cleanup
-        run: |
-         # Add cleanup commands here, such as removing unnecessary files or changing permissions
-         chmod -R +rw .
-         find . -type d -name ".git" -exec chmod -R +rw {} +
+          # SonarScanner configuration
+          sonar-scanner \
+            -Dsonar.projectKey=flask \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://54.166.82.236 \
+            -Dsonar.token=sqp_ba55a2f7b8bf231499f47b80637f6384f33bcf38
 
+  publish:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: flask-app-artifact
-          path: |
-            .
-            !venu/
+          path: .
+          exclude: |
+            .git
+            venv
 
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: flask-app-artifact
-          path: .
-
-
-  # publish:
-  #   runs-on: ubuntu-latest
-
-  #   needs: build
-
-  #   steps:
-  #     - name: Archive artifacts
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: flask-app-artifact
-  #         path: .  # Use the root directory as the artifact path
-
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: flask-app-artifact
-          
-

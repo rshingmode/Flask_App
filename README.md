@@ -1,4 +1,4 @@
-## CI For Flask Application using Github Actions
+## Deploy Flask Application Using Github Actions
 ### Step 1: Create the Flask App 
 In Flask Application there are multiple file Main file is app.py. For requirements there is requirement.txt file where your dependencies are written.
 ### Step 2: Create .github/workflow/main.yml file

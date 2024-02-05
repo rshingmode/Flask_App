@@ -35,28 +35,27 @@ jobs:
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
           SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}}
-
-      - name: Copy files to temporary directory (excluding .git and venv)
+          
+      - name: List files
         run: |
-          mkdir temp
-          cp -r * temp/
-          find temp -name ".git" -exec rm -rf {} \;
-          find temp -name "venv" -exec rm -rf {} \;
+          echo "Contents of Working Directory: $(ls -l)"
+      
+      - name: Cleanup
+        run: |
+         # Add cleanup commands here, such as removing unnecessary files or changing permissions
+         chmod -R +rw .
+         find . -type d -name ".git" -exec chmod -R +rw {} +
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
           name: flask-app-artifact
-          path: temp
-          
-  
-  publish:
-    runs-on: ubuntu-latest
+          path: .  # Use the root directory as the artifact path
 
-    needs: build
-
-    steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: flask-app-artifact
+      
+         
+       

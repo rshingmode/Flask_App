@@ -54,6 +54,14 @@ jobs:
           name: flask-app-artifact
           path: .  # Use the root directory as the artifact path
 
+      - name: Remove .git directory
+        run: |
+          rm -rf ./flask-app-artifact/.git
+
+      - name: Set correct permissions after removal
+        run: |
+          chmod -R +rw ./flask-app-artifact
+
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
